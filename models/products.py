@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.orm import relationship
 from db import Base
 
 
@@ -10,3 +11,5 @@ class Products(Base):
     price = Column(Integer, nullable=False)
     amount = Column(Integer, nullable=False)
     image = Column(String(255), nullable=True)
+
+    order_items = relationship("OrderItem", back_populates="product")

@@ -1,6 +1,6 @@
 from db import Base
 from sqlalchemy import Column, String, Integer
-
+from sqlalchemy.orm import relationship
 
 class Users(Base):
     __tablename__ = 'users'
@@ -11,3 +11,5 @@ class Users(Base):
     role = Column(String(255), nullable=False)
     phone_number = Column(String(255), nullable=False)
     image = Column(String(255), nullable=False)
+
+    orders = relationship("Order", back_populates="user")
