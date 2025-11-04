@@ -48,6 +48,29 @@ async def sign_up(form, db:AsyncSession, current_user : Users):          # add_u
     return "Foydalanuvchi ro'yhatga olindi "
 
 
+
+# # qulfsiz foydalanuvchini qo'shish funksiyasi
+# async def sign_up_open(form, db:AsyncSession, current_user : Users):          # add_user degani
+#     check_user = await db.execute(select(Users).where(Users.email == form.email))
+#     user_exists = check_user.scalar()
+#     if user_exists:
+#         raise HTTPException(400, "Bunday email avval ro'yhatga olingan !")
+#
+#
+#     new_user = Users(
+#         name = form.name,
+#         email = form.email,
+#         password = get_password_hash(form.password),
+#         role = "user",
+#         phone_number = form.phone_number,
+#         image = form.image
+#     )
+#     db.add(new_user)
+#     await db.commit()
+#     return "Foydalanuvchi ro'yhatga olindi "
+
+
+
 # # admin qo'shish
 # async def add_admin(form, db:AsyncSession, current_user : Users):
 #     check_user = await db.execute(select(Users).where(Users.role == current_user.role))

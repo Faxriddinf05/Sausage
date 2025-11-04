@@ -42,6 +42,17 @@ async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database
         raise HTTPException(400, str(e))
 
 
+# # qulfsiz foydalanuvchi qo'shish routeri
+# @user_router.post('/post_users')
+# async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
+#     try:
+#         return await sign_up(form, db, current_user)
+#     except Exception as e:
+#         raise HTTPException(400, str(e))
+
+
+
+
 # @admin_router.post('/post_admin')
 # async def admin_qoshish(form:UserSch, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
 #     try:
