@@ -38,7 +38,8 @@ async def add_order_item(form: SchemaOrderItem, db: AsyncSession = Depends(datab
 
     db.add(new_item)
     await db.commit()
-    return "Buyurtmaga mahsulot qo'shildi !"
+    await db.refresh(new_item)
+    return {"xabar": "Buyurtmaga mahsulot qo'shildi !", "id": new_item.id}
 
 
 # ✏️ Buyurtma elementini tahrirlash

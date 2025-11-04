@@ -16,4 +16,4 @@ class Order(Base):
     status = Column(String(30), nullable=False)
 
     user = relationship("Users", back_populates="orders")
-    order_items = relationship("OrderItem", back_populates="order", cascade="all, delete-orphan")
+    order_items = relationship("OrderItem", back_populates="order")

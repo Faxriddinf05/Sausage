@@ -15,7 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(order_item_router, tags=["Buyurtma elementlari"])
-app.include_router(order_router)
+app.include_router(order_router, tags=["Buyurtma"])
 app.include_router(user_router, tags=["Profil"])
 app.include_router(login_router)
 app.include_router(product_router, tags=["Mahsulotlar"])

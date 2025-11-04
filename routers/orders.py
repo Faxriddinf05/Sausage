@@ -65,19 +65,19 @@ async def create_order(form: SchemaOrder, db: AsyncSession = Depends(database)):
             .values(amount=product.amount - item.amount)
         )
 
-        order_item = OrderItem(
+        order_items = OrderItem(
             product_id=item.product_id,
             amount=item.amount,
             price=price
         )
-        order_items_list.append(order_item)
+        order_items_list.append(order_items)
 
     new_order = Order(
         user_id=form.user_id,
         address=form.address,
         total_price=total_price,
         status="Kutilmoqda",
-        order_item=order_items_list
+        order_items=order_items_list
     )
 
     db.add(new_order)
