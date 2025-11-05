@@ -11,14 +11,14 @@ from schemas.orders import SchemaOrder, SchemaOrderItem
 order_router = APIRouter()
 
 
-# 🧾 Barcha zakazlarni ko'rish
+# Barcha buyurtmalarni ko'rish uchun API
 @order_router.get("/Buyurtmalarni_ko'rish")
 async def get_all_orders(db: AsyncSession = Depends(database)):
     result = await db.execute(select(Order))
     return result.scalars().all()
 
 
-# 🔍 Bitta zakazni ID orqali ko'rish
+# Bitta buyurtmani ID orqali ko'rish uchun API
 @order_router.get("/Buyurtmani_id_bilan_ko'rish")
 async def get_order(ident: int, db: AsyncSession = Depends(database)):
     result = await db.execute(select(Order).where(Order.id == ident))
@@ -28,7 +28,7 @@ async def get_order(ident: int, db: AsyncSession = Depends(database)):
     return order
 
 
-# ➕ Buyurtma yaratish (Order + Order_item)
+# Buyurtma yaratish (Order + Order_item) uchun API
 @order_router.post("/Buyurtma_yaratish")
 async def create_order(form: SchemaOrder, db: AsyncSession = Depends(database)):
     """
@@ -85,7 +85,7 @@ async def create_order(form: SchemaOrder, db: AsyncSession = Depends(database)):
     return {"xabar": "Buyurtma muvaffaqiyatli yaratildi", "buyurtma_id": new_order.id}
 
 
-# 📝 Buyurtma statusini o'zgartirish
+# Buyurtma statusini o'zgartirish (uchun API)
 @order_router.put("/Buyurtma_statusini_o'zgartirish")
 async def update_order_status(ident: int, status: str, db: AsyncSession = Depends(database)):
     result = await db.execute(select(Order).where(Order.id == ident))
@@ -98,7 +98,7 @@ async def update_order_status(ident: int, status: str, db: AsyncSession = Depend
     return "Buyurtma statusi o'zgartirildi !"
 
 
-# ❌ Buyurtmani o'chirish
+# Buyurtmani o'chirish uchun API
 @order_router.delete("/Buyurtmani_o'chirish")
 async def delete_order(ident: int, db: AsyncSession = Depends(database)):
     result = await db.execute(select(Order).where(Order.id == ident))

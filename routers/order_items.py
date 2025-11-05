@@ -9,14 +9,14 @@ from schemas.order_items import SchemaOrderItem
 order_item_router = APIRouter()
 
 
-# 🔍 Barcha buyurtma elementlarini ko‘rish
+# Barcha buyurtma elementlarini ko‘rish uchun API
 @order_item_router.get("/Buyurtma_elementlarini_ko'rish")
 async def get_all_order_items(db: AsyncSession = Depends(database)):
     result = await db.execute(select(OrderItem))
     return result.scalars().all()
 
 
-# 🔍 Bitta order_item ni ID orqali ko‘rish
+# Bitta order_item ni ID orqali ko‘rish uchun API
 @order_item_router.get("/Buyurtma_elementini_id_bilan_ko'rish")
 async def get_order_item(ident: int, db: AsyncSession = Depends(database)):
     result = await db.execute(select(OrderItem).where(OrderItem.id == ident))
@@ -26,7 +26,7 @@ async def get_order_item(ident: int, db: AsyncSession = Depends(database)):
     return item
 
 
-# ➕ Buyurtmaga mahsulot qo‘shish
+# Buyurtmaga mahsulot qo‘shish uchun API
 @order_item_router.post("/Buyurtmaga_mahsulot_qo'shish")
 async def add_order_item(form: SchemaOrderItem, db: AsyncSession = Depends(database)):
     new_item = OrderItem(
@@ -42,7 +42,7 @@ async def add_order_item(form: SchemaOrderItem, db: AsyncSession = Depends(datab
     return {"xabar": "Buyurtmaga mahsulot qo'shildi !", "id": new_item.id}
 
 
-# ✏️ Buyurtma elementini tahrirlash
+# Buyurtma elementini tahrirlash uchun API (tahrirlash = o'zgartirish)
 @order_item_router.put("/Buyurtma_elementini_tahrirlash")
 async def update_order_item(ident: int, form: SchemaOrderItem, db: AsyncSession = Depends(database)):
     result = await db.execute(select(OrderItem).where(OrderItem.id == ident))
@@ -64,7 +64,7 @@ async def update_order_item(ident: int, form: SchemaOrderItem, db: AsyncSession 
     return "Buyurtma elementi tahrirlandi !"
 
 
-# ❌ Buyurtma elementini o‘chirish
+# Buyurtma elementini o‘chirish uchun API
 @order_item_router.delete("/Buyurtma_elementini_o'chirish")
 async def delete_order_item(ident: int, db: AsyncSession = Depends(database)):
     result = await db.execute(select(OrderItem).where(OrderItem.id == ident))

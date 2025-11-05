@@ -9,12 +9,14 @@ from sqlalchemy import update, delete
 product_router = APIRouter()
 
 
+# Barcha mahsulotlarni ko'rish uchun API
 @product_router.get("/Mahsulotlarni_ko'rish")   # barcha ma'lumotlarni ko'rish
 async def get_all(db:AsyncSession = Depends(database)):
     result = await db.execute(select(Products))
     return result.scalars().all()
 
 
+# Mahsulotlarni tartibi ya'ni ID bo'yicha ko'rish uchun API
 @product_router.get("/Mahsulotlarni_id_bilan_ko'rish")
 async def get_product(ident:int = None, db:AsyncSession = Depends(database)):
     if ident:
@@ -25,6 +27,7 @@ async def get_product(ident:int = None, db:AsyncSession = Depends(database)):
         return a.scalars().all()
 
 
+# Mahsulot qo'shish uchun API
 @product_router.post("/Mahsulot_qo'shish")
 async def add_product(form:SchemaProducts, db:AsyncSession = Depends(database)):
     product = Products(
@@ -39,6 +42,7 @@ async def add_product(form:SchemaProducts, db:AsyncSession = Depends(database)):
     return "Mahsulot bazaga qo'shildi !"
 
 
+## Mahsulotga rasm yuklash uchun API (Bu hozircha yopilgan, agar zarurat bo'lsa ishlatib beriladi)
 # @product_router.post("/Mahsulotga_rasm_yuklash")       # bitmagan funksiya - hato
 # async def product(file, db: AsyncSession, current_user : Users):
 #
@@ -56,6 +60,7 @@ async def add_product(form:SchemaProducts, db:AsyncSession = Depends(database)):
 #         return "Rasm yuklandi !"
 
 
+# Mahsulotni tahrirlash (o'zgartirish) uchun API
 @product_router.put("/Mahsulot_tahrirlash")
 async def update_product(ident: int, form:SchemaProducts, db:AsyncSession = Depends(database)):
     result = await db.execute(select(Products).where(Products.id == ident))
@@ -74,6 +79,7 @@ async def update_product(ident: int, form:SchemaProducts, db:AsyncSession = Depe
     return "Mahsulot tahrirlandi !"
 
 
+# Mahsulotni o'chirib yuborish uchun API
 @product_router.delete("/Mahsulot_o'chirish")
 async def delete_product(ident: int, db:AsyncSession = Depends(database)):
     result = await db.execute(select(Products).where(Products.id == ident))

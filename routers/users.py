@@ -12,6 +12,7 @@ user_router = APIRouter()
 # admin_router = APIRouter()
 
 
+# O'zini ko'rish uchun API
 @user_router.get('/get_own_lock')
 async def ozini_korish(db: AsyncSession = Depends(database), current_user: Users = Depends(get_current_user)):
     """
@@ -23,7 +24,7 @@ async def ozini_korish(db: AsyncSession = Depends(database), current_user: Users
     return await get_own(db, current_user)
 
 
-
+# Barchani ko'rish uchun API (Adminga hos ish)
 @user_router.get('/get_users_lock')
 async def foydalanuvchilarni_korish(db:AsyncSession=Depends(database), current_user: Users = Depends(get_current_user)):
     result = await db.execute(select(Users))
@@ -33,7 +34,7 @@ async def foydalanuvchilarni_korish(db:AsyncSession=Depends(database), current_u
         raise (HTTPException(400, str(h)))
 
 
-
+# Foydalanuvchi qo'shish uchun API, hamda ro'yxatdan o'tish
 @user_router.post('/post_users')
 async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
     try:
@@ -42,7 +43,7 @@ async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database
         raise HTTPException(400, str(e))
 
 
-# # qulfsiz foydalanuvchi qo'shish routeri
+# # qulfsiz foydalanuvchi qo'shish routeri (zarur bo'lsa ishlatib beriladi)
 # @user_router.post('/post_users')
 # async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
 #     try:
@@ -52,7 +53,7 @@ async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database
 
 
 
-
+# (zarur bo'lsa ishlatib beriladi)
 # @admin_router.post('/post_admin')
 # async def admin_qoshish(form:UserSch, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
 #     try:
@@ -61,7 +62,7 @@ async def foydalanuvchi_qoshish(form:UserSch, db:AsyncSession = Depends(database
 #         raise HTTPException(400, str(f))
 
 
-
+# o'zini tahrirlash uchun API (o'zi haqidagi ma'lumotlarni o'zgartirish)
 @user_router.put('/put_own')
 async def ozini_tahrirlash(form:UserSch, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
     try:
@@ -70,6 +71,7 @@ async def ozini_tahrirlash(form:UserSch, db:AsyncSession = Depends(database), cu
         raise HTTPException(400, str(d))
 
 
+# o'ziga rasm yuklash uchun API
 @user_router.post('/load_image')
 async def oziga_rasm_yuklash(file:UploadFile, db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
     try:
@@ -79,6 +81,7 @@ async def oziga_rasm_yuklash(file:UploadFile, db:AsyncSession = Depends(database
 
 
 
+# o'zini o'chirish uchun API (o'zini tizimdan chiqarib yuborish)
 @user_router.delete('/delete_self')
 async def ozini_ochirish(db:AsyncSession = Depends(database), current_user : Users = Depends(get_current_user)):
     try:
