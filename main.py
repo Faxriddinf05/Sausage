@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from db import engine, Base
 from routers.users import user_router
 from routers.login import login_router
 from starlette.middleware.cors import CORSMiddleware
@@ -13,6 +14,16 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
 )
+
+async def create_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)
+    print("✅ Barcha jadvallar yaratildi!")
+
+# --- Dastur ishga tushganda chaqirish ---
+@app.on_event("startup")
+async def on_startup():
+    await create_tables()
 
 app.include_router(order_item_router, tags=["Buyurtma elementlari"])
 app.include_router(order_router, tags=["Buyurtma"])
